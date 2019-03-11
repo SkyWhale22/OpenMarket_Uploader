@@ -2,23 +2,41 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from Log import Log
-from Global import GetResHeight, GetResWidth, UIBase
+
+from Global import GetResHeight, GetResWidth, WidgetBase
 
 
-class UiUploader(UIBase):
-    def SetupUi(self, mainWindow):
-        mainWindow.setObjectName("엑셀 일괄 업로드")
-        mainWindow.resize(GetResWidth(), GetResHeight())
+class UiUploader(WidgetBase):
+    def __init__(self, mainWindow):
+        super(UiUploader, self).__init__()
+        self.m_centralWidget = self
+        self.m_mainWindow = mainWindow
+        self.SetupUi()
+        self.resize(GetResWidth(), GetResHeight())
+        #self.setDisabled(False)
 
-        self.centralwidget = QWidget(mainWindow)
-        self.centralwidget.setObjectName("centralwidget")
+    # ======================================================================================================
+    # Group Box - Account Selection
+    # ======================================================================================================
+    def SetupUi(self):
+        self.MakeGbAccountSelection()
+        self.MakeGbMarketType()
+        self.MakeGbSalesStatus()
+        self.MakeGbUploadButton()
+        self.MakeGbFileUpload()
+        self.MakeGbLog()
 
-        # ======================================================================================================
-        # Group Box - Account Selection
-        # ======================================================================================================
-        self.gbAccount = QGroupBox(self.centralwidget)
-        self.gbAccount.setGeometry(QRect(10, 10, 500, 100))
-        self.gbAccount.setStyleSheet(
+        self.RetranslateUi()
+
+    # ======================================================================================================
+    # Group Box - Account Selection
+    # ======================================================================================================
+    def MakeGbAccountSelection(self):
+        gbAccount = QGroupBox()
+        #self.gbAccount = QGroupBox()
+
+        gbAccount.setGeometry(QRect(10, 10, 500, 100))
+        gbAccount.setStyleSheet(
             '''
 			QGroupBox { 
 				border: 2px solid gray; 
@@ -30,7 +48,7 @@ class UiUploader(UIBase):
         font = QFont()
         font.setPointSize(9)
 
-        self.gbAccount.setFont(font)
+        gbAccount.setFont(font)
         self.gbAccount.setObjectName("gbAccount")
 
         self.horizontalLayout = QHBoxLayout(self.gbAccount)
@@ -41,14 +59,17 @@ class UiUploader(UIBase):
         self.rbHyMedi.setObjectName("radioButton_4")
         self.horizontalLayout.addWidget(self.rbHyMedi)
 
-        self.rbMirae= QRadioButton(self.gbAccount)
+        self.rbMirae = QRadioButton(self.gbAccount)
         self.rbMirae.setObjectName("radioButton_3")
         self.horizontalLayout.addWidget(self.rbMirae)
 
-        # ======================================================================================================
-        # Group Box - Market Type
-        # ======================================================================================================
-        self.gbMarketType = QGroupBox(self.centralwidget)
+    # ======================================================================================================
+    # Group Box - Market Type
+    # ======================================================================================================
+    def MakeGbMarketType(self):
+        self.gbMarketType = QGroupBox(self.m_centralWidget)
+        #self.gbMarketType = QGroupBox()
+
         self.gbMarketType.setGeometry(QRect(10, 120, 500, 250))
         self.gbMarketType.setStyleSheet(
             '''
@@ -84,10 +105,13 @@ class UiUploader(UIBase):
         self.rbSmartStore.setObjectName("rbSmartStore")
         self.verticalLayout.addWidget(self.rbSmartStore)
 
-        # ======================================================================================================
-        # Group Box - Sales status
-        # ======================================================================================================
-        self.gbSalesStatus = QGroupBox(self.centralwidget)
+    # ======================================================================================================
+    # Group Box - Sales status
+    # ======================================================================================================
+    def MakeGbSalesStatus(self):
+        self.gbSalesStatus = QGroupBox(self.m_centralWidget)
+        #self.gbSalesStatus = QGroupBox()
+
         self.gbSalesStatus.setGeometry(QRect(10, 390, 500, 250))
         self.gbSalesStatus.setStyleSheet(
             '''
@@ -115,10 +139,13 @@ class UiUploader(UIBase):
         self.rbPauseSales.setObjectName("rbPauseSales")
         self.verticalLayout_3.addWidget(self.rbPauseSales)
 
-        # ======================================================================================================
-        # Excel file upload
-        # ======================================================================================================
-        self.gbFileUpload = QGroupBox(self.centralwidget)
+    # ======================================================================================================
+    # Excel file upload
+    # ======================================================================================================
+    def MakeGbFileUpload(self):
+        self.gbFileUpload = QGroupBox(self.m_centralWidget)
+        #self.gbFileUpload = QGroupBox()
+
         self.gbFileUpload.setStyleSheet(
             '''
 			QGroupBox { 
@@ -144,10 +171,16 @@ class UiUploader(UIBase):
         self.textLine.setGeometry(QRect(10, 10, 530, 40))
         self.textLine.move(25, 40)
 
-        # ======================================================================================================
-        # Log
-        # ======================================================================================================
-        self.gbLog = QGroupBox(self.centralwidget)
+    # ======================================================================================================
+    # Log
+    # ======================================================================================================
+    def MakeGbLog(self):
+        self.centralwidget = QWidget(self.m_mainWindow)
+        #self.centralwidget = QWidget()
+
+        self.centralwidget.setObjectName("centralwidget")
+
+        self.gbLog = QGroupBox(self.m_centralWidget)
         self.gbLog.setGeometry(QRect(520, 120, 700, 460))
         self.gbLog.setStyleSheet(
             '''
@@ -160,10 +193,14 @@ class UiUploader(UIBase):
 
         Log.Instance().SetData(self.gbLog, self.gbLog.width(), self.gbLog.height())
 
-        # ======================================================================================================
-        # Buttons
-        # ======================================================================================================
-        self.btnStart = QPushButton('업로드', self.centralwidget)
+
+    # ======================================================================================================
+    # Buttons
+    # ======================================================================================================
+    def MakeGbUploadButton(self):
+        #self.btnStart = QPushButton('업로드', self.m_centralWidget)
+        self.btnStart = QPushButton('업로드')
+
         self.btnStart.move(640, 590)
         self.btnStart.setGeometry(QRect(self.btnStart.x(), self.btnStart.y(), 500, 50))
         self.btnStart.setStyleSheet(
@@ -174,37 +211,9 @@ class UiUploader(UIBase):
             """
         )
 
-        # ======================================================================================================
-        # Tool bar
-        # ======================================================================================================
-        mainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(mainWindow)
-        self.menubar.setGeometry(QRect(0, 0, 501, 11))
-        self.menubar.setObjectName("menubar")
 
-        self.menu = QMenu(self.menubar)
-        self.menu.setObjectName("menu")
-        #self.menu.triggered.connect(self.ShowDialog)
-        #self.menu.addAction(self.ShowDialog())
-
-        self.menu_2 = QMenu(self.menubar)
-        self.menu_2.setObjectName("menu_2")
-
-        mainWindow.setMenuBar(self.menubar)
-
-        self.statusbar = QStatusBar(mainWindow)
-        self.statusbar.setObjectName("statusbar")
-        mainWindow.setStatusBar(self.statusbar)
-
-        self.menubar.addAction(self.menu.menuAction())
-        self.menubar.addAction(self.menu_2.menuAction())
-
-        self.RetranslateUi(mainWindow)
-        QMetaObject.connectSlotsByName(mainWindow)
-
-    def RetranslateUi(self, mainWindow):
+    def RetranslateUi(self):
         _translate = QCoreApplication.translate
-        mainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         # --------------------------------------------------------------------------------------------------
         self.gbAccount.setTitle(_translate("MainWindow", "계정 선택"))
         self.rbMirae.setText(_translate("MainWindow", "미래메디쿠스"))
@@ -220,13 +229,13 @@ class UiUploader(UIBase):
         self.rbBeginSales.setText(_translate("MainWindow", "판매 개시"))
         # --------------------------------------------------------------------------------------------------
         self.gbFileUpload.setTitle(_translate("MainWindow", "엑셀 파일"))
-        # --------------------------------------------------------------------------------------------------
-        self.menu.setTitle(_translate("MainWindow", "제품 등록하기"))
-        self.menu_2.setTitle(_translate("MainWindow", "엑셀 템플릿 만들기"))
+        # # --------------------------------------------------------------------------------------------------
+        # self.menu.setTitle(_translate("MainWindow", "제품 등록하기"))
+        # self.menu_2.setTitle(_translate("MainWindow", "엑셀 템플릿 만들기"))
 
     def ShowDialog(self):
         # Get file's directory in string
-        fname = QFileDialog.getOpenFileName(self.centralwidget, 'Open file', './')
+        fname = QFileDialog.getOpenFileName(self.m_centralWidget, 'Open file', './')
 
         # Check file's existence
         if(fname[0]):
@@ -236,6 +245,6 @@ class UiUploader(UIBase):
                 self.textLine.setText(fname[0])
                 Log.Getinstance().AddMessage(fname[0] + " 파일이 선택되었습니다.")
             else:
-                reply = QMessageBox.question(self.centralwidget, 'Message', '엑셀 파일이 아닙니다.',
+                reply = QMessageBox.question(self.m_centralWidget, 'Message', '엑셀 파일이 아닙니다.',
                                              QMessageBox.Yes)
                 Log.Getinstance().AddMessageWithColor("엑셀 파일이 아닙니다.", QColor(255, 0, 0))

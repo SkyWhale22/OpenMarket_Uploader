@@ -1,268 +1,105 @@
-# import sys
-#
-# from PyQt5 import QtCore
-# from PyQt5.QtWidgets import *
-# from PyQt5.QtGui import *
-#
-#
-# class MyApp(object):
-#
-#     def SetupUI(self, mainWindow):
-#         mainWindow.setWindowTitle("오픈마켓 업로더")
-#         mainWindow.resize(1280, 720)
-#
-#         self.centralwidget = QWidget(mainWindow)
-#
-#         #self.Center()
-#
-#         # Code goes here ------------------------------------------
-#         # exitAction = QAction('Exit', self)
-#         # exitAction.setShortcut('Ctrl+Q')
-#         # exitAction.setStatusTip('Exit application')
-#         # exitAction.triggered.connect(qApp.quit)
-#         #
-#         # self.statusBar()
-#         #
-#         # menubar = self.menuBar()
-#         # menubar.setNativeMenuBar(False)
-#         # fileMenu = menubar.addMenu('&File')
-#         # fileMenu.addAction(exitAction)
-#         #
-#         self.CreateAccountSelectionGB()
-#         self.CreateMarketTypeGB()
-#         self.CreateSalesStatusGB()
-#
-#         # ----------------------------------------------------------
-#         #self.show()
-#
-#     def CreateAccountSelectionGB(self):
-#         accountSelectionBox = QGroupBox(self.centralwidget)
-#         _translate = QtCore.QCoreApplication.translate
-#         accountSelectionBox.setTitle(_translate("MainWindow", "계정 선택"))
-#
-#         accountSelectionBox.setMinimumWidth(450)
-#         accountSelectionBox.setMinimumHeight(100)
-#         accountSelectionBox.setStyleSheet(
-#             '''
-#             QGroupBox
-#             {
-#                 subcontrol-origin: margin;
-#                 subcontrol-position: top left;
-#                 padding: 5 5px;
-#                 font-size: 30px;
-#                 font-weight: bold;
-#                 minimum
-#             }
-#             '''
-#         )
-#         boxLayout = QBoxLayout(QBoxLayout.LeftToRight, parent=self.centralwidget)
-#         accountSelectionBox.setLayout(boxLayout)
-#
-#         rbHyMedical = QRadioButton()
-#         rbHyMedical.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         rbHyMedical.setText("HY 메디칼")
-#
-#         rbMirae = QRadioButton()
-#         rbMirae.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         rbMirae.setEnabled(False)
-#         rbMirae.setText("미래메디쿠스")
-#
-#         boxLayout.addWidget(rbHyMedical)
-#         boxLayout.addWidget(rbMirae)
-#
-#         accountSelectionBox.move(25, 75)
-#
-#     def CreateMarketTypeGB(self):
-#         marketType = QGroupBox("마켓 선택", self.centralwidget)
-#
-#         marketType.setMinimumWidth(450)
-#         marketType.setMinimumHeight(250)
-#         marketType.setStyleSheet(
-#             '''
-#             QGroupBox
-#             {
-#                 subcontrol-origin: margin;
-#                 subcontrol-position: top left;
-#                 padding: 5 5px;
-#                 font-size: 30px;
-#                 font-weight: bold;
-#                 minimum
-#             }
-#             '''
-#         )
-#         boxLayout = QBoxLayout(QBoxLayout.TopToBottom, parent=self.centralwidget)
-#         marketType.setLayout(boxLayout)
-#
-#         gmarket = QRadioButton()
-#         gmarket.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         gmarket.setText("ESM Plus")
-#
-#         eleventhSt = QRadioButton()
-#         eleventhSt.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         eleventhSt.setEnabled(False)
-#         eleventhSt.setText("11번가")
-#
-#         smartStore = QRadioButton()
-#         smartStore.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         smartStore.setEnabled(False)
-#         smartStore.setText("스마트 스토어")
-#
-#         boxLayout.addWidget(gmarket)
-#         boxLayout.addWidget(eleventhSt)
-#         boxLayout.addWidget(smartStore)
-#
-#         marketType.move(25, 200)
-#
-#     def CreateSalesStatusGB(self):
-#         salesStatus = QGroupBox("판매 상태", self.centralwidget)
-#
-#         salesStatus.setMinimumWidth(450)
-#         salesStatus.setMinimumHeight(175)
-#         salesStatus.setStyleSheet(
-#             '''
-#             QGroupBox
-#             {
-#                 subcontrol-origin: margin;
-#                 subcontrol-position: top left;
-#                 padding: 5 5px;
-#                 font-size: 30px;
-#                 font-weight: bold;
-#                 minimum
-#             }
-#             '''
-#         )
-#         boxLayout = QBoxLayout(QBoxLayout.TopToBottom, parent=self.centralwidget)
-#         salesStatus.setLayout(boxLayout)
-#
-#         rbBeginSales = QRadioButton()
-#         rbBeginSales.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         rbBeginSales.setText("판매 시작")
-#
-#         rbPauseSales = QRadioButton()
-#         rbPauseSales.setStyleSheet(
-#             '''
-#             QRadioButton
-#             {
-#                 font: 9pt;
-#                 width: 15px;
-#                 height: 15px;
-#             }
-#             '''
-#         )
-#         rbPauseSales.setChecked(True)
-#         rbPauseSales.setText("판매 중지")
-#
-#         boxLayout.addWidget(rbBeginSales)
-#         boxLayout.addWidget(rbPauseSales)
-#
-#         salesStatus.move(25, 475)
-#
-#     def ShowFileOpen(self):
-#         fname = QFileDialog.getOpenFileName(self)
-#         self.label.setText(fname[0])
-#
-#     def Center(self):
-#         qr = self.frameGeometry()
-#         cp = QDesktopWidget().availableGeometry().center()
-#         qr.moveCenter(cp)
-#         self.move(qr.topLeft())
-#
-#
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     mainWindow = QMainWindow()
-#     mainWindowUI = MyApp()
-#     mainWindowUI.SetupUI(mainWindow)
-#     mainWindow.show()
-#
-#     sys.exit(app.exec_())
-
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit,
-    QInputDialog, QApplication)
 import sys
 
-class MyApp(QWidget):
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QStackedWidget
+from PyQt5.QtWidgets import QTextEdit
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QGroupBox
+from PyQt5.QtWidgets import QListView
+from PyQt5.QtGui import QStandardItem
+from PyQt5.QtGui import QStandardItemModel
+from PyQt5.QtCore import QModelIndex
 
+from PyQt5.QtWidgets import QBoxLayout
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSlot
+
+
+__author__ = "Deokyu Lim <hong18s@gmail.com>"
+
+
+class StWidgetForm(QGroupBox):
+    """
+    위젯 베이스 클래스
+    """
     def __init__(self):
-        super().__init__()
+        QGroupBox.__init__(self)
+        self.box = QBoxLayout(QBoxLayout.TopToBottom)
+        self.setLayout(self.box)
 
-        self.initUI()
 
-    def initUI(self):
-        self.btn = QPushButton('Dialog', self)
-        self.btn.move(20, 20)
-        self.btn.clicked.connect(self.showDialog)
+class Widget_1(StWidgetForm):
+    """
+    버튼 그룹
+    """
+    def __init__(self):
+        super(Widget_1, self).__init__()
+        self.setTitle("Widget_1")
+        self.box.addWidget(QPushButton("Test_1"))
+        self.box.addWidget(QPushButton("Test_2"))
+        self.box.addWidget(QPushButton("Test_3"))
 
-        self.le = QLineEdit(self)
-        self.le.move(130, 22)
 
-        self.setGeometry(300, 300, 290, 150)
-        self.setWindowTitle('Input dialog')
-        self.show()
+class Widget_2(StWidgetForm):
+    def __init__(self):
+        super(Widget_2, self).__init__()
+        self.setTitle("Widget_2")
+        self.box.addWidget(QTextEdit())
 
-    def showDialog(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog',
-                                        'Enter your name:')
 
-        if ok:
-            self.le.setText(str(text))
+class Widget_3(StWidgetForm):
+    def __init__(self):
+        super(Widget_3, self).__init__()
+        self.setTitle("Widget_3")
+        self.box.addWidget(QLabel("Test Label"))
 
-if __name__ == '__main__':
 
+class Form(QWidget):
+    def __init__(self):
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.stk_w = QStackedWidget(self)
+        self.init_widget()
+
+    def init_widget(self):
+        self.setWindowTitle("Hello World")
+        widget_laytout = QBoxLayout(QBoxLayout.LeftToRight)
+
+        group = QGroupBox()
+        box = QBoxLayout(QBoxLayout.TopToBottom)
+        group.setLayout(box)
+        group.setTitle("Buttons")
+        widget_laytout.addWidget(group)
+
+        fruits = ["Buttons in GroupBox", "TextBox in GroupBox", "Label in GroupBox", "TextEdit"]
+        view = QListView(self)
+        model = QStandardItemModel()
+        for f in fruits:
+            model.appendRow(QStandardItem(f))
+        view.setModel(model)
+        box.addWidget(view)
+
+        self.stk_w.addWidget(Widget_1())
+        self.stk_w.addWidget(Widget_2())
+        self.stk_w.addWidget(Widget_3())
+        self.stk_w.addWidget(QTextEdit())
+
+        widget_laytout.addWidget(self.stk_w)
+        self.setLayout(widget_laytout)
+
+        # 시그널 슬롯 연결
+        view.clicked.connect(self.slot_clicked_item)
+
+    @pyqtSlot(QModelIndex)
+    def slot_clicked_item(self, QModelIndex):
+        self.stk_w.setCurrentIndex(QModelIndex.row())
+
+
+
+
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = MyApp()
-    sys.exit(app.exec_())
+    form = Form()
+    form.show()
+    exit(app.exec_())
