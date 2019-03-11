@@ -12,14 +12,14 @@ class Log(BaseClass, SingletonInstance):
         self.m_txtLog.setReadOnly(True)
 
         font = QFont()
-        font.setPointSize(12)
+        font.setPointSize(9)
 
         self.m_txtLog.setFont(font)
 
     def AddMessage(self, message):
         self.m_txtLog.append(message)
         self.m_txtLog.setTextColor(QColor(0, 0, 0))
-        self.m_txtLog.append("-" * 50 + "\n")
+        #self.m_txtLog.append("-" * 50 + "\n")
 
     def AddMessageWithColor(self, message, color):
         self.m_txtLog.setTextColor(color)

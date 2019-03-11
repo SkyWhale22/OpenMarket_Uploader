@@ -5,14 +5,40 @@ from Log import Log
 
 from Global import GetResHeight, GetResWidth, WidgetBase
 
+class Widget_1(WidgetBase):
+    """
+    버튼 그룹
+    """
+    def __init__(self):
+        super(Widget_1, self).__init__()
+        self.setTitle("Widget_1")
+        self.box.addWidget(QPushButton("Test_1"))
+        self.box.addWidget(QPushButton("Test_2"))
+        self.box.addWidget(QPushButton("Test_3"))
 
-class UiUploader(WidgetBase):
-    def __init__(self, mainWindow):
+
+class Widget_2(WidgetBase):
+    def __init__(self):
+        super(Widget_2, self).__init__()
+        self.setTitle("Widget_2")
+        self.box.addWidget(QTextEdit())
+
+
+class Widget_3(WidgetBase):
+    def __init__(self):
+        super(Widget_3, self).__init__()
+        self.setTitle("Widget_3")
+        self.box.addWidget(QLabel("Test Label"))
+
+class UiUploader(QGroupBox):
+    def __init__(self, centralWidget):
         super(UiUploader, self).__init__()
-        self.m_centralWidget = self
-        self.m_mainWindow = mainWindow
+        self.m_centralWidget = centralWidget
+        self.m_centralBox = QGroupBox()
+        self.m_centralBox.setGeometry(QRect(0, 0, GetResWidth(), GetResHeight()))
+
+        #self.m_mainWindow = mainWindow
         self.SetupUi()
-        self.resize(GetResWidth(), GetResHeight())
         #self.setDisabled(False)
 
     # ======================================================================================================
@@ -27,16 +53,17 @@ class UiUploader(WidgetBase):
         self.MakeGbLog()
 
         self.RetranslateUi()
+        #self.AddWidgetsToBox()
 
     # ======================================================================================================
     # Group Box - Account Selection
     # ======================================================================================================
     def MakeGbAccountSelection(self):
-        gbAccount = QGroupBox()
+        self.gbAccount = QGroupBox(self.m_centralWidget)
         #self.gbAccount = QGroupBox()
 
-        gbAccount.setGeometry(QRect(10, 10, 500, 100))
-        gbAccount.setStyleSheet(
+        self.gbAccount.setGeometry(QRect(10, 10, 500, 100))
+        self.gbAccount.setStyleSheet(
             '''
 			QGroupBox { 
 				border: 2px solid gray; 
@@ -48,8 +75,9 @@ class UiUploader(WidgetBase):
         font = QFont()
         font.setPointSize(9)
 
-        gbAccount.setFont(font)
+        self.gbAccount.setFont(font)
         self.gbAccount.setObjectName("gbAccount")
+        self.gbAccount.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
         self.horizontalLayout = QHBoxLayout(self.gbAccount)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -79,7 +107,6 @@ class UiUploader(WidgetBase):
 			} 
 			'''
         )
-
         font = QFont()
         font.setPointSize(9)
 
@@ -144,7 +171,6 @@ class UiUploader(WidgetBase):
     # ======================================================================================================
     def MakeGbFileUpload(self):
         self.gbFileUpload = QGroupBox(self.m_centralWidget)
-        #self.gbFileUpload = QGroupBox()
 
         self.gbFileUpload.setStyleSheet(
             '''
@@ -155,7 +181,7 @@ class UiUploader(WidgetBase):
 			'''
         )
         self.gbFileUpload.setGeometry(QRect(520, 10, 700, 100))
-
+        #self.gbFileUpload.move(570, 35)
         font = QFont()
         font.setPointSize(9)
 
@@ -175,10 +201,9 @@ class UiUploader(WidgetBase):
     # Log
     # ======================================================================================================
     def MakeGbLog(self):
-        self.centralwidget = QWidget(self.m_mainWindow)
-        #self.centralwidget = QWidget()
+        #self.centralwidget = QWidget(self.m_mainWindow)
 
-        self.centralwidget.setObjectName("centralwidget")
+        #self.centralwidget.setObjectName("centralwidget")
 
         self.gbLog = QGroupBox(self.m_centralWidget)
         self.gbLog.setGeometry(QRect(520, 120, 700, 460))
@@ -198,8 +223,7 @@ class UiUploader(WidgetBase):
     # Buttons
     # ======================================================================================================
     def MakeGbUploadButton(self):
-        #self.btnStart = QPushButton('업로드', self.m_centralWidget)
-        self.btnStart = QPushButton('업로드')
+        self.btnStart = QPushButton('업로드', self.m_centralWidget)
 
         self.btnStart.move(640, 590)
         self.btnStart.setGeometry(QRect(self.btnStart.x(), self.btnStart.y(), 500, 50))
@@ -232,6 +256,7 @@ class UiUploader(WidgetBase):
         # # --------------------------------------------------------------------------------------------------
         # self.menu.setTitle(_translate("MainWindow", "제품 등록하기"))
         # self.menu_2.setTitle(_translate("MainWindow", "엑셀 템플릿 만들기"))
+
 
     def ShowDialog(self):
         # Get file's directory in string

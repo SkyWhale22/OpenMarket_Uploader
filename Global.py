@@ -2,7 +2,7 @@ from abc import*
 from PyQt5.QtWidgets import QGroupBox, QBoxLayout, QPushButton, QTextEdit, QLabel
 
 def GetResWidth():
-    return 1230
+    return 1280
 
 def GetResHeight():
     return 720

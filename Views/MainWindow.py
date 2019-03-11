@@ -12,10 +12,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from Global import SingletonInstance, BaseClass
-from Views.UI_ItemUploader import UiUploader
+from Views.UI_ItemUploader import UiUploader, Widget_1, Widget_2, Widget_3
 from Views.UI_ExcelFileGenerator import UiExcelFormatGenerator
 from Global import GetResHeight, GetResWidth
 from Log import Log
+
 
 class WindowController(QMainWindow):
     def __init__(self):
@@ -23,29 +24,15 @@ class WindowController(QMainWindow):
         self.setObjectName("엑셀 일괄 업로드")
         self.resize(GetResWidth(), GetResHeight())
 
-
-        self.m_upload = UiUploader(self)
         #self.generateExcel = UiExcelFormatGenerator(self, self.m_centralwidget)
-        #self.MakeToolBar()
+        self.MakeToolBar()
 
-        #self.m_centralwidget = QWidget(self)
-        self.m_centralwidget = self.m_upload
+        self.m_centralwidget = QWidget(self)
+        widget_layout = QBoxLayout(QBoxLayout.LeftToRight, self.m_centralwidget)
+        widget_layout.setGeometry(QRect(0, 0, GetResWidth(), GetResHeight()))
         self.m_centralwidget.setObjectName("centralwidget")
+        self.m_upload = UiUploader(self.m_centralwidget)
         self.setCentralWidget(self.m_centralwidget)
-
-        self.stack = QStackedWidget(self)
-        self.stack.addWidget(self.m_upload)
-        #self.stack.addWidget(self.generateExcel)
-
-        #self.m_centralwidget.setVisible(False)
-        #self.stack.addWidget(UiUploader(self, self.m_centralwidget))
-        #self.stack.addWidget(UiExcelFormatGenerator(self, self.m_centralwidget))
-
-
-        # self.m_grid = QGridLayout()
-        # self.m_grid.addWidget(self.menubar, 0, 0)
-        # self.m_grid.addWidget(self.stack, 1, 0)
-        # self.setLayout(self.m_grid)
 
     def Display(self, i):
         self.stack.setCurrentIndex(i)
