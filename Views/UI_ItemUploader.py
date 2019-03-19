@@ -5,6 +5,8 @@ from Log import Log
 
 from Global import GetResHeight, GetResWidth, WidgetBase
 
+from Uploader.ESMUploader import ESMUploader
+
 class Widget_1(WidgetBase):
     """
     버튼 그룹
@@ -16,13 +18,11 @@ class Widget_1(WidgetBase):
         self.box.addWidget(QPushButton("Test_2"))
         self.box.addWidget(QPushButton("Test_3"))
 
-
 class Widget_2(WidgetBase):
     def __init__(self):
         super(Widget_2, self).__init__()
         self.setTitle("Widget_2")
         self.box.addWidget(QTextEdit())
-
 
 class Widget_3(WidgetBase):
     def __init__(self):
@@ -218,7 +218,6 @@ class UiUploader(QGroupBox):
 
         Log.Instance().SetData(self.gbLog, self.gbLog.width(), self.gbLog.height())
 
-
     # ======================================================================================================
     # Buttons
     # ======================================================================================================
@@ -234,7 +233,6 @@ class UiUploader(QGroupBox):
                 }
             """
         )
-
 
     def RetranslateUi(self):
         _translate = QCoreApplication.translate
@@ -253,7 +251,7 @@ class UiUploader(QGroupBox):
         self.rbBeginSales.setText(_translate("MainWindow", "판매 개시"))
         # --------------------------------------------------------------------------------------------------
         self.gbFileUpload.setTitle(_translate("MainWindow", "엑셀 파일"))
-        # # --------------------------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------
         # self.menu.setTitle(_translate("MainWindow", "제품 등록하기"))
         # self.menu_2.setTitle(_translate("MainWindow", "엑셀 템플릿 만들기"))
 
@@ -273,3 +271,15 @@ class UiUploader(QGroupBox):
                 reply = QMessageBox.question(self.m_centralWidget, 'Message', '엑셀 파일이 아닙니다.',
                                              QMessageBox.Yes)
                 Log.Getinstance().AddMessageWithColor("엑셀 파일이 아닙니다.", QColor(255, 0, 0))
+
+    def ProceedUploading(self, arg):
+        uploaders = {
+            "ESM" : ESMUploader()
+        }
+
+        uploader = uploaders.get(arg)
+
+        if(uploader != None):
+            uploader.UpLoad()
+
+

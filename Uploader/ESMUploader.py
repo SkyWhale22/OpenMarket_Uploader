@@ -2,17 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-
 from Uploader.UploaderBase import UploaderBase
-from openpyxl import load_workbook
 from Items.Base import ItemBase
+
+from openpyxl import load_workbook
 
 from Items.ESM import ItemESM
 from Items.ESM import ESMItemInfo
 from Items.ESM import Languages
-
-
 
 """
 	ESMUploader class definition
@@ -275,5 +272,6 @@ class ESMUploader:
 
 # For testing code.
 # Make sure to comment this out or remove before releasing.
-test = ESMUploader()
-test.UpLoad()
+if __name__ == '__main__':
+	test = ESMUploader()
+	test.UpLoad()
